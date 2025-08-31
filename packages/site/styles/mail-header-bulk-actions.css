@@ -1,4 +1,5 @@
 .header-tools-row {
+  max-width: 350px;
   margin-inline: 3px;
   color: #4b4b4b;
   display: flex;
