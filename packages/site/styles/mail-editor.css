@@ -5,7 +5,7 @@
   background-color: var(--text-color);
   min-width: 400px;
   height: 540px;
-  margin-right: 1%;
+  margin-right: 20px;
   border-radius: 7px;
   box-shadow: rgba(0, 0, 0, 0.192) 0px 5px 15px;
   overflow: hidden;
