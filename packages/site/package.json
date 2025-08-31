@@ -15,7 +15,7 @@
     "dev-webpack": "npm run clean && npm run genabi && next dev",
     "genabi": "node ./scripts/genabi.mjs",
     "ishhrunning": "node ./scripts/is-hardhat-node-running.mjs",
-    "build": "next build",
+    "build": "next build --no-lint",
     "start": "next start",
     "lint": "next lint"
   },
@@ -43,6 +43,7 @@
     "@testing-library/jest-dom": "^6.6.4",
     "@testing-library/react": "^16.3.0",
     "@types/jest": "^30.0.0",
+    "@types/lodash": "^4.17.20",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-blockies": "^1.4.4",

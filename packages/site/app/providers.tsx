@@ -6,6 +6,8 @@ import { MetaMaskProvider } from "@/hooks/metamask/useMetaMaskProvider";
 import { InMemoryStorageProvider } from "@/hooks/useInMemoryStorage";
 import { MetaMaskEthersSignerProvider } from "@/hooks/metamask/useMetaMaskEthersSigner";
 
+import { RPC_URLS } from "@/constants";
+
 type Props = {
   children: ReactNode;
 };
@@ -13,7 +15,7 @@ type Props = {
 export function Providers({ children }: Props) {
   return (
     <MetaMaskProvider>
-      <MetaMaskEthersSignerProvider initialMockChains={{11155111: "https://eth-sepolia.g.alchemy.com/v2/pRrAQUdchAxHQKNS_UM61"}}>
+      <MetaMaskEthersSignerProvider initialMockChains={{11155111: RPC_URLS[0]}}>
         <InMemoryStorageProvider>{children}</InMemoryStorageProvider>
       </MetaMaskEthersSignerProvider>
     </MetaMaskProvider>
