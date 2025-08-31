@@ -17,8 +17,12 @@ export default function MailHeaderWallet() {
 
   const onDisconnect = (): void => {
     disconnect();
-    push("/");
   };
+
+  useEffect(() => {
+    if (acount) return;
+    else push("/");
+  }, [acount]);
 
   useEffect(() => {
     const getBalance = async () => {
@@ -61,7 +65,7 @@ export default function MailHeaderWallet() {
 
         <div className="domain">
           <div>
-            Balanace: <span>{balance + ' ETH'}</span>
+            Balanace: <span>{balance + " ETH"}</span>
           </div>
         </div>
         <div className="domain">

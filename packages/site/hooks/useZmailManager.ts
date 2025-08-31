@@ -45,6 +45,7 @@ export const useZmailManager = () => {
 
   // ===== REF =====
   const loadingBarRef = useRef<LoadingBarRef["current"]>(null);
+  const threadMailsRef = useRef(threadMails);
 
   const refreshMap: Record<number, () => Promise<Mail[]>> = {
     [TAB_INDEXES.SENT]: () => getSent(),
@@ -118,15 +119,33 @@ export const useZmailManager = () => {
   }, [searchValue]);
 
   useEffect(() => {
-    const run = async () => {
-      if (activeMail?.threadId) {
-        const threadMails = await getThread(activeMail.threadId);
-        setThreadMails(threadMails);
+    threadMailsRef.current = threadMails;
+  }, [threadMails]);
+
+  useEffect(() => {
+    let running = true;
+  
+    const runLoop = async () => {
+      let firstRun = true;
+  
+      while (activeMail?.threadId && running) {
+        const mails = await getThread(activeMail.threadId, threadMailsRef.current, firstRun);
+        if (mails.length === 0) break;
+
+        !isEqual(mails, threadMailsRef.current) && setThreadMails(mails);
+
+        firstRun = false;
+        await new Promise((resolve) => setTimeout(resolve, 5000));
       }
     };
-
-    run();
+  
+    if (activeMail?.threadId) runLoop();
+  
+    return () => {
+      running = false;
+    };
   }, [activeMail]);
+  
 
   useEffect(() => {
     setIsSelecting(false);

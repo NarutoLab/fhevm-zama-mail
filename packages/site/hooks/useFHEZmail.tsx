@@ -232,15 +232,15 @@ export const useFHEZmail = ({
   };
 
   /** Get and decrypt a mail thread */
-  const getThread = async (
-    threadId: number,
-    loading: boolean = true
-  ): Promise<Mail[]> => {
+  const getThread = async (threadId: number, threadMails: Mail[], loading: boolean = true): Promise<Mail[]> => {
     if (contractRead && fheInstance && ethersSigner) {
-      const toastLoading = toast.loading("View mail...");
+      const toastLoading = loading ? toast.loading("View mail...") : null;
       try {
         const rawMails = await contractRead.myThread(threadId);
+
         if (rawMails.length === 0) return [];
+        if (rawMails.length === threadMails.length) return threadMails;
+
         const sig = await FhevmDecryptionSignature.loadOrSign(
           fheInstance,
           [contractAddress],
@@ -267,18 +267,14 @@ export const useFHEZmail = ({
           to: m.to,
           time: parseUnixToUTC(Number(m.time)),
           box: Number(m.box) as Box,
-          subject: m.subjectCT
-            .map((h: string) => bigIntToString(BigInt(decrypted[h])))
-            .join(""),
-          body: m.bodyCT
-            .map((h: string) => bigIntToString(BigInt(decrypted[h])))
-            .join(""),
+          subject: m.subjectCT.map((h: string) => bigIntToString(BigInt(decrypted[h]))).join(""),
+          body: m.bodyCT.map((h: string) => bigIntToString(BigInt(decrypted[h]))).join(""),
         }));
       } catch (err) {
         console.error("Error in getThread:", err);
         return [];
       } finally {
-        toast.dismiss(toastLoading);
+        toastLoading !== null && toast.dismiss(toastLoading);
       }
     }
 

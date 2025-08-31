@@ -1,10 +1,11 @@
 .mail-item-list {
+  max-width: calc(100vw - 350px);
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 45px;
   cursor: pointer;
-  padding: 0 45px 0 48px;
+  padding: 0 38px 0 38px;
 }
 
 .mail-item-list:hover {
@@ -69,9 +70,11 @@
   text-overflow: ellipsis;
   position: relative;
   top: 3px;
+  font-size: 14px;
 }
 
 .body {
+  font-size: 16px;
   color: gray;
   white-space: nowrap;
   overflow: hidden;
@@ -79,13 +82,15 @@
 }
 
 .hour {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: lighter;
   position: relative;
   top: 3px;
-  width: 150px;
-  display: flex;
-  justify-content: flex-end;
+  max-width: 180px;
+  margin-left: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .no-content {
