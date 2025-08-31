@@ -1,149 +1,152 @@
-# FHEVM React Template
+<p align="center">
+  <img src="https://raw.githubusercontent.com/NarutoLab/fhevm-zama-mail-app/refs/heads/feature/update-README.MD-file/packages/site/public/zama-image.jpg" alt="FHEZmail Logo" />
+</p>
 
-The FHEVM React Template is an ultra-minimal React project for building and running an FHEVM-enabled dApp.
-It works alongside the [fhevm-hardhat-template](https://github.com/zama-ai/fhevm-hardhat-template)
-and provides a simple development frontend for interacting with the `FHECounter.sol` contract.
 
-This template also illustrates how to run your FHEVM-dApp on both Sepolia as well as a local Hardhat Node (much faster).
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![Sepolia Testnet](https://img.shields.io/badge/Network-Sepolia-blue)](#)
+[![Ethereum](https://img.shields.io/badge/Platform-Ethereum-purple)](#)
+[![React](https://img.shields.io/badge/Frontend-React-blue?logo=react)](#)
+[![Next.js](https://img.shields.io/badge/Framework-Next.js-black?logo=next.js)](#)
 
-## Features
+**FHEZmail** is a **decentralized, privacy email platform** on the Ethereum Sepolia testnet. Using **Fully Homomorphic Encryption (FHE)**, all emails are encrypted on-chain, and only the sender and recipient can read their content.
 
-- **@zama-fhe/relayer-sdk**: Fully Homomorphic Encryption for Ethereum Virtual Machine
-- **React**: Modern UI framework for building interactive interfaces
-- **Next.js**: Next-generation frontend build tool
-- **Tailwind**: Utility-first CSS framework for rapid UI development
+---
 
-## Requirements
+## 🌐 Live Demo
 
-- You need to have Metamask browser extension installed on your browser.
+- **Testnet Smart Contract:** [`0xCB45011ca6B8CDce01792CBB9B4c999479E94a0E`](https://sepolia.etherscan.io/address/0xCB45011ca6B8CDce01792CBB9B4c999479E94a0E)
+- **Frontend (Next.js/React):** [https://fhevm-zmail.netlify.app/](https://fhevm-zmail.netlify.app/) (or deploy your own)
 
-## Local Hardhat Network (to add in MetaMask)
+---
 
-Follow the step-by-step guide in the [Hardhat + MetaMask](https://docs.metamask.io/wallet/how-to/run-devnet/) documentation to set up your local devnet using Hardhat and MetaMask.
+## 📖 Project Overview
 
-- Name: Hardhat
-- RPC URL: http://127.0.0.1:8545
-- Chain ID: 31337
-- Currency symbol: ETH
+FHEZmail combines **blockchain** and **FHE encryption** to create an email system that is:
 
-## Install
+- **Decentralized:** All emails stored on-chain, no central server.
+- **Encrypted:** Subjects and bodies encrypted with Fully Homomorphic Encryption.
+- **Threaded:** Supports replies and forwards while preserving privacy.
+- **Organized:** Emails sorted into **Inbox, Sent, Archive, Star, Spam, Trash, and Read**.
 
-### Automatic install
+---
 
-1. Clone this repository.
-2. From the repo root, run:
-```sh
-# - git clone "https://github.com/zama-ai/fhevm-hardhat-template.git" into <root>/packages
-# - npm install
-# - auto-depoy on hardhat node
-node ./scripts/install.mjs
-```
+## 🏗 Technologies Used
 
-### Manual install
+### Smart Contract (On-chain)
 
-1. Clone this repository.
-2. From the repo root, execute the following:
-```sh
-cd ./packages
-git clone "https://github.com/zama-ai/fhevm-hardhat-template.git"
-cd ..
+- **Solidity 0.8.24**
+- **Fully Homomorphic Encryption (FHE):**
+- **SepoliaConfig** – Preconfigured Sepolia testnet setup
+
+### Frontend (User Interface)
+
+- **React** – Modern, responsive UI
+- **Next.js** – Server-side rendering & optimized builds
+- **@zama-fhe/relayer-sdk** – Integrates FHE encryption/decryption on FE
+
+---
+
+## ⚡ Key Features
+
+1. **Send Emails**
+   - Encrypts subject & body using FHE
+   - Creates copies for sender (`Sent`) and recipient (`Inbox`)
+   - Permission management for encryption
+
+2. **Reply**
+   - Replies within existing threads
+   - Updates boxes and maintains encryption
+
+3. **Forward**
+   - Securely forward emails
+   - Updates permissions for new recipients
+
+4. **Move Emails**
+   - Move emails between boxes
+   - TRASH box is handled specially
+
+5. **View Emails & Threads**
+   - Fetch mails by box type
+   - Fetch full threads with encrypted replies
+
+---
+
+## 🛠 Getting Started
+
+### Prerequisites
+
+- Node.js >= 20
+- Yarn or npm
+- MetaMask or Web3 wallet
+- Sepolia testnet ETH
+
+### Installation
+
+```bash
+git clone https://github.com/NarutoLab/fhevm-zama-mail-app.git
+cd pakages/site
 npm install
 ```
 
-## Setup
+### Running Frontend
 
-1. Setup your hardhat environment variables:
-
-Follow the detailed instructions in the [FHEVM documentation](https://docs.zama.ai/protocol/solidity-guides/getting-started/setup#set-up-the-hardhat-configuration-variables-optional) to setup `MNEMONIC` + `INFURA_API_KEY` Hardhat environment variables
-
-2. Start a local Hardhat node (new terminal):
-
-```sh
-cd packages/fhevm-hardhat-template
-npx hardhat node --verbose
-# Default RPC: http://127.0.0.1:8545  | chainId: 31337
+```bash
+npm run dev
 ```
 
-3. Deploy `FHECounter` to the local node:
+Open [http://localhost:3000](http://localhost:3000) to access the dApp.
 
-```sh
-# still in packages/fhevm-hardhat-template
-npx hardhat deploy --network localhost
+---
+
+## 💻 Smart Contract Interaction
+
+**Contract Address:** [`0xCB45011ca6B8CDce01792CBB9B4c999479E94a0E`](https://sepolia.etherscan.io/address/0xCB45011ca6B8CDce01792CBB9B4c999479E94a0E)
+
+**Key Functions:**
+
+```typescript
+// Send a new email
+sendMail(to, subjectExternal, subjectProofs, bodyExternal, bodyProofs);
+
+// Reply to a thread
+reply(threadId, subjectExternal, subjectProofs, bodyExternal, bodyProofs);
+
+// Forward an email
+forward(mailId, to);
+
+// Move emails between boxes
+move(mailIds, newBox);
+
+// Fetch emails
+(inbox(user),
+  sent(user),
+  archive(user),
+  star(user),
+  spam(user),
+  trash(user),
+  read(user));
 ```
 
-4. Deploy to Sepolia:
+---
 
-Follows instructions in the [FHEVM documentation to setup your Hardhat project for Sepolia](https://docs.zama.ai/protocol/solidity-guides/getting-started/setup#set-up-the-hardhat-configuration-variables-optional)
+## 🌟 Future Potential
 
-```sh
-# still in packages/fhevm-hardhat-template
-npx hardhat deploy --network sepolia
-```
+FHEZmail lays the foundation for **next-gen decentralized communication**:
 
-## Run frontend in mock mode
+- **Cross-chain Encrypted Messaging**
+- **Decentralized Identity Integration** (ENS, DIDs)
+- **Encrypted Search & Filters** without decryption
 
-1. Start a local Hardhat node (new terminal):
+---
 
-```sh
-npx hardhat node --verbose
-```
+## 🔒 Security & Privacy
 
-2. From the `<root>/packages/site` run
+- Emails are **encrypted on-chain**; only allowed participants can decrypt
+- No plaintext stored on-chain
+- Full control of permissions using FHE primitives
 
-```sh
-npm run dev:mock
-```
-
-3. In your browser open `http://localhost:3000`
-
-4. Open Metamask connect to local Hardhat node
-i. Select Add network.
-ii. Select Add a network manually.
-iii. Enter your Hardhat Network RPC URL, http://127.0.0.1:8545/ (or http://localhost:8545).
-iv. Enter your Hardhat Network chain ID, 31337 (or 0x539 in hexadecimal format).
-
-## How to fix Hardhat Node + Metamask Errors ?
-
-When using MetaMask as a wallet provider with a development node like Hardhat, you may encounter two common types of errors:
-
-### 1. ⚠️ Nonce Mismatch ❌💥
-MetaMask tracks wallet nonces (the number of transactions sent from a wallet). However, if you restart your Hardhat node, the nonce is reset on the dev node, but MetaMask does not update its internal nonce tracking. This discrepancy causes a nonce mismatch error.
-
-### 2. ⚠️ View Function Call Result Mismatch ❌💥
-
-MetaMask caches the results of view function calls. If you restart your Hardhat node, MetaMask may return outdated cached data corresponding to a previous instance of the node, leading to incorrect results.
-
-### ✅ How to Fix Nonce Mismatch:
-
-To fix the nonce mismatch error, simply clear the MetaMask cache:
-
-1. Open the MetaMask browser extension.
-2. Select the Hardhat network.
-3. Go to Settings > Advanced.
-4. Click the "Clear Activity Tab" red button to reset the nonce tracking.
-
-The correct way to do this is also explained [here](https://docs.metamask.io/wallet/how-to/run-devnet/).
-
-### ✅ How to Fix View Function Return Value Mismatch:
-
-To fix the view function result mismatch:
-
-1. Restart the entire browser. MetaMask stores its cache in the extension's memory, which cannot be cleared by simply clearing the browser cache or using MetaMask's built-in cache cleaning options.
-
-By following these steps, you can ensure that MetaMask syncs correctly with your Hardhat node and avoid potential issues related to nonces and cached view function results.
-
-## Project Structure Overview
-
-### Key Files/Folders
-
-* **`<root>/packages/site/fhevm`**: This folder contains the essential hooks needed to interact with FHEVM-enabled smart contracts. It is meant to be easily copied and integrated into any FHEVM + React project.
-
-* **`<root>/packages/site/hooks/useFHECounter.tsx`**: A simple React custom hook that demonstrates how to use the `useFhevm` hook in a basic use case, serving as an example of integration.
-
-### Secondary Files/Folders
-
-* **`<root>/packages/site/hooks/metamask`**: This folder includes hooks designed to manage the MetaMask Wallet provider. These hooks can be easily adapted or replaced to support other wallet providers, following the EIP-6963 standard,
-* Additionally, the project is designed to be flexible, allowing developers to easily replace `ethers.js` with a more React-friendly library of their choice, such as `Wagmi`.
+---
 
 ## Documentation
 
