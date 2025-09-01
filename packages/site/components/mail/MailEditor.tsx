@@ -2,8 +2,8 @@ import "@/styles/mail-editor.css";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Mail, Box } from "@/types";
-import { useMetaMaskEthersSigner } from "@/hooks/metamask/useMetaMaskEthersSigner";
 import { parseUnixToUTC } from "@/utils";
+import { useMetaMaskEthersSigner } from "@/hooks/metamask/useMetaMaskEthersSigner";
 
 import Blockies from "react-blockies";
 import ReactMarkdown from "react-markdown";
@@ -157,6 +157,7 @@ export default function MailEditor({
             className="input2"
             type="text"
             placeholder="Subject"
+            disabled={isForwarding}
           />
         </div>
       </div>
@@ -166,6 +167,7 @@ export default function MailEditor({
           <textarea
             className="mediumRegular"
             value={body}
+            disabled={isForwarding}
             onChange={(e) => setBody(e.target.value)}
           />
         ) : (

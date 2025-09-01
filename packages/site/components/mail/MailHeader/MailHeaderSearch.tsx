@@ -26,7 +26,7 @@ export default function MailHeaderSearch({
             setSearchValue(e.target.value)
           }
           type="text"
-          placeholder="Search sender or recipient address"
+          placeholder="Search address"
           className="mediumRegular"
         />
       </div>

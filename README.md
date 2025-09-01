@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/NarutoLab/fhevm-zama-mail-app/refs/heads/feature/update-README.MD-file/packages/site/public/zama-image.jpg" alt="FHEZmail Logo" />
+  <img src="https://raw.githubusercontent.com/NarutoLab/fhevm-zama-mail-app/refs/heads/main/packages/site/public/zama-image.jpg" alt="FHEZmail Logo" />
 </p>
 
 
