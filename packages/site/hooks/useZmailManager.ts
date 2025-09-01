@@ -10,6 +10,7 @@ export const useZmailManager = () => {
   const { storage: fhevmDecryptionSignatureStorage } = useInMemoryStorage();
   const {
     isInitialized,
+    acount,
     getInbox,
     getTrash,
     getSent,
@@ -22,7 +23,6 @@ export const useZmailManager = () => {
     reply,
     forward,
     moveMails,
-    getMails,
   } = useFHEZmail({
     fhevmDecryptionSignatureStorage,
   });
@@ -64,6 +64,10 @@ export const useZmailManager = () => {
 
   const getMailIds = () => mails.map((mail) => mail.id);
 
+  function isMe(owner: string, acount: string): boolean {
+    return owner.toLowerCase() === acount.toLowerCase();
+  }
+
   useEffect(() => {
     const run = async (): Promise<void> => {
       if (isInitialized) {
@@ -102,15 +106,16 @@ export const useZmailManager = () => {
   useEffect(() => {
     if (isInitialized) {
       setLoading(true);
+      setIsSearching(true)
       const handler = setTimeout(async () => {
         const mails = await refreshByTab(activeTab);
         const filterMails = mails.filter((mail: Mail) => {
-          return (
-            mail?.to?.toLowerCase().includes(searchValue.toLowerCase()) ||
-            mail?.from?.toLowerCase().includes(searchValue.toLowerCase())
-          );
+          const searchTarget = isMe(mail.from, acount ?? "") ? mail.to: mail.from;
+
+          return searchTarget ?.toLowerCase().includes(searchValue.toLowerCase());
         });
-        setMails(filterMails);
+        setFilteredMails(searchValue ? filterMails : []);
+        setIsSearching(Boolean(searchValue))
         setLoading(false);
       }, 300);
 
@@ -124,10 +129,10 @@ export const useZmailManager = () => {
 
   useEffect(() => {
     let running = true;
-  
+
     const runLoop = async () => {
       let firstRun = true;
-  
+
       while (activeMail?.threadId && running) {
         const mails = await getThread(activeMail.threadId, threadMailsRef.current, firstRun);
         if (mails.length === 0) break;
@@ -138,14 +143,13 @@ export const useZmailManager = () => {
         await new Promise((resolve) => setTimeout(resolve, 5000));
       }
     };
-  
+
     if (activeMail?.threadId) runLoop();
-  
+
     return () => {
       running = false;
     };
   }, [activeMail]);
-  
 
   useEffect(() => {
     setIsSelecting(false);

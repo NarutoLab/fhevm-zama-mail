@@ -1,6 +1,8 @@
 import "@/styles/mail-list-item.css";
 import { motion } from "framer-motion";
 import { Mail, Box } from "@/types";
+import { useMetaMaskEthersSigner } from "@/hooks/metamask/useMetaMaskEthersSigner";
+
 
 export interface MailItemProps {
   mail: Mail;
@@ -17,6 +19,12 @@ const MailItem: React.FC<MailItemProps> = ({
   onMailClick,
   onCheckboxToggle,
 }) => {
+  const { acount } = useMetaMaskEthersSigner();
+
+  function isMe(owner: string, acount: string): boolean {
+    return owner.toLowerCase() === acount.toLowerCase();
+  }
+
   const isReadMessage = (type: number): boolean => {
     return type === Box.READ;
   };
@@ -75,7 +83,7 @@ const MailItem: React.FC<MailItemProps> = ({
 
         {/* Subject */}
         <p className="boldSans" style={{ color: isReadMessage(mail.box) ? "gray" : undefined }}>
-          {'👤 ' + mail.owner.toUpperCase()}
+          {'👤 ' + isMe(mail.from, acount ?? '') ? mail.to.toUpperCase() : mail.from.toUpperCase()}
         </p>
       </div>
 

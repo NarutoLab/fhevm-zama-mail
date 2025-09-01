@@ -325,6 +325,7 @@ export const useFHEZmail = ({
 
   return {
     isInitialized,
+    acount,
     fheInstance,
     contract: contractWrite,
     getInbox,

@@ -2,8 +2,8 @@ import "@/styles/mail-editor.css";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Mail, Box } from "@/types";
-import { useMetaMaskEthersSigner } from "@/hooks/metamask/useMetaMaskEthersSigner";
 import { parseUnixToUTC } from "@/utils";
+import { useMetaMaskEthersSigner } from "@/hooks/metamask/useMetaMaskEthersSigner";
 
 import Blockies from "react-blockies";
 import ReactMarkdown from "react-markdown";

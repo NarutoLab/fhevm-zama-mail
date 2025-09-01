@@ -52,6 +52,12 @@ const MailItemList: React.FC<MailItemListProps> = ({
     </div>
   );
 
+  const NoMailSearch = () => (
+    <div className="no-content mediumRegular">
+      <div>No results found.</div>
+    </div>
+  );
+
   const MailList = () =>
     (isSearching ? filteredMails : mails).map((mail) => (
       <MailItem
@@ -66,7 +72,13 @@ const MailItemList: React.FC<MailItemListProps> = ({
 
   return (
     <div className="mail-list">
-      {mails.length === 0 ? <NoMailState /> : <MailList />}
+      {isSearching && filteredMails.length === 0 ? (
+        <NoMailSearch />
+      ) : mails.length === 0 ? (
+        <NoMailState />
+      ) : (
+        <MailList />
+      )}
     </div>
   );
 };
